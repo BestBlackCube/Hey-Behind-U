@@ -22,8 +22,6 @@ public class PlayerCustomEditor : Editor
     SerializedProperty LadderProp;
     SerializedProperty GroundCheckProp;
     SerializedProperty SliderProp;
-    SerializedProperty keyCountTextProp;
-    SerializedProperty gameClearTMPText;
     private void OnEnable()
     {
         rigidProp = serializedObject.FindProperty("rigid");
@@ -34,8 +32,6 @@ public class PlayerCustomEditor : Editor
         StairLayerProp = serializedObject.FindProperty("StairlayerMask");
         GroundCheckProp = serializedObject.FindProperty("groundcheck");
         SliderProp = serializedObject.FindProperty("staminaSlider");
-        keyCountTextProp = serializedObject.FindProperty("KeyCountText");
-        gameClearTMPText = serializedObject.FindProperty("gameClearTMPText");
     }
     bool ShowPlayerStatus = false;
     bool ShowComponent_variable = false;
@@ -96,8 +92,6 @@ public class PlayerCustomEditor : Editor
             EditorGUILayout.PropertyField(rigidProp);
             EditorGUILayout.PropertyField(animatorProp);
             EditorGUILayout.PropertyField(playerCameraProp);
-            EditorGUILayout.PropertyField(keyCountTextProp);
-            EditorGUILayout.PropertyField(gameClearTMPText);
             EditorGUILayout.Space(10);
 
             EditorGUILayout.LabelField("variable");
@@ -136,32 +130,32 @@ public class PlayerCustomEditor : Editor
 
     // manual
 
-    // EditorField Å¸ï¿½ï¿½ GUI
+    // EditorField Å¸ÀÔ GUI
 
     // 1. typeof_Name.TargetScript_variableName = EditorGUILayout.IntField(typeof_Name.TargetScript_variableName);
 
-    // LabelField("Text")         : Inspector GUIï¿½ï¿½ TextÅ¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½
-    // Int, float, Vector3Field() : Inspector GUIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ public Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½ 
+    // LabelField("Text")         : Inspector GUI¿¡ TextÅ¸ÀÔÀÇ ¹®ÀÚ¸¦ Ãß°¡ÇÑ´Ù
+    // Int, float, Vector3Field() : Inspector GUI¿¡ ¼öÁ¤ÀÌ °¡´ÉÇÑ public Å¸ÀÔÀÇ º¯¼ö¸¦ Ãß°¡ÇÑ´Ù 
 
-    // SerializedObject Å¸ï¿½ï¿½ GUI
+    // SerializedObject Å¸ÀÔ GUI
 
     // 1. SerializedObject Property_Name;
-    // 2. OnEnabled ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ Property_Name = serializedObject.FindProperty("variableName"); 
-    // 3. OnInspectorGUI ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ EditorGUILayout.PropertyField("PropertyName");
+    // 2. OnEnabled ÇÔ¼ö ³»ºÎ¿¡ Property_Name = serializedObject.FindProperty("variableName"); 
+    // 3. OnInspectorGUI ÇÔ¼ö ³»ºÎ¿¡ EditorGUILayout.PropertyField("PropertyName");
 
-    // SerializedObject Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ int, float, ï¿½ï¿½ï¿½ï¿½ Vector3, string ï¿½ï¿½ï¿½ typeofï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    //               ï¿½×¿ï¿½ ï¿½è¿­, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®, Transform ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Fieldï¿½Î´ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
-    //               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // SerializedObject Å¸ÀÔ º¯¼ö¸¦ ¸¸µê
+    // ¸¸µå´Â ÀÌÀ¯ : °£´ÜÇÑ int, float, ´ÜÀÏ Vector3, string µîµî typeofÀ¸·Î ºÒ·¯¿Ã¼ö ÀÖÁö¸¸
+    //               ±×¿Ü ¹è¿­, ÄÄÆ÷³ÍÆ®, Transform µîµî º¹ÀâÇÑ º¯¼öµéÀº ÇØ´çÇÏ´Â Field·Î´Â ºÒ·¯¿À±â Èûµé¾î
+    //               ÇÁ·ÎÆÛÆ¼¸¦ ¸¸µê
 
 
 
-    // EditorGUILayout.Space() : ï¿½ï¿½ï¿½Ú¸ï¿½Å­ ï¿½ï¿½ï¿½ï¿½Ä­ ï¿½ï¿½ï¿½ï¿½ (GUILayout.Space()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-    // BeginHorizontal         : Inspector GUIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ 1ï¿½Ù·ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½ (ï¿½Ù¹Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½)
-    // EndHorizontal           : Inspector GUIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½
-    // GUILayout.Width()       : ï¿½Ø´ï¿½ Fieldï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    // EditorGUILayout.Space() : ¼ýÀÚ¸¸Å­ °ø¹éÄ­ »ý¼º (GUILayout.Space()µµ Á¸ÀçÇÔ)
+    // BeginHorizontal         : Inspector GUI¿¡ °¡·Î ¹è¿­ÀÇ ½ÃÀÛÀÌ µÇ¾úÀ½À» ¾Ë¸®°í, °¡·Î 1ÁÙ·Î Ãß°¡ÇÑ´Ù (ÁÙ¹Ù²Þ ¾øÀ½)
+    // EndHorizontal           : Inspector GUI¿¡ °¡·Î ¹è¿­ÀÌ ³¡³µ´Ù°í ¾Ë¸°´Ù
+    // GUILayout.Width()       : ÇØ´ç FieldÀÇ ±æÀÌ¸¦ ¼öÁ¤ÇÑ´Ù (¿ÞÂÊ Á¤·Ä)
 
-    // EditorGUILayout.Foldout() : Inspector GUIï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
-    //                             Foldout(booltype, "StringName", true) trueï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    //                             ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ È­ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+    // EditorGUILayout.Foldout() : Inspector GUI¿¡¼­ ÆîÄ¡°í, Á¢´Â ºí·°À» ¸¸µç´Ù
+    //                             Foldout(booltype, "StringName", true) true°¡ ¾ø´Ù¸é ÀÌ¸§À» ´­·¯¼­
+    //                             ÆîÃÄÁö´Â°Ô ¾Æ´Ñ ÀÌ¸§ ¿· È­»ìÇ¥¸¸ ´­·¯¾ßÁö ÆîÄ¡°Å³ª Á¢À»¼ö ÀÖ´Ù
 }

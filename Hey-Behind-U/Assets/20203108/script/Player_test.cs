@@ -8,7 +8,6 @@ using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-
 public class Player_test : MonoBehaviour
 {
     // player inGame Status
@@ -46,12 +45,7 @@ public class Player_test : MonoBehaviour
     public float delayStamina = 2f; //스태미나 회복대기 시간
     private float timerStamina = 0f; // 회복 되기 까지 지연시간 타이머
     public UnityEngine.UI.Slider staminaSlider;    //Slider 지정
-    //----------스태미나 관련 변수-----------------//
-    public int Keycount = 0;
-    public int TotalKeys = 5;
-    public Text KeyCountText;
-    public TMP_Text gameClearTMPText;   //game clear text
-    private bool isGameClear = false;
+                                                   //----------스태미나 관련 변수-----------------//
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -80,17 +74,15 @@ public class Player_test : MonoBehaviour
         StairlayerMask = LayerMask.GetMask("Stair");                     //?계단으로 지정할 레이어마크스
         //Ladder = LayerMask.GetMask("Ladder");                       //? 사다리 지정 레이어마스크
         NowStamina = maxStamina;                // 현재 스태미나를 최대 스태미나로 초기화
-
-        if (staminaSlider != null)
+        
+        if(staminaSlider != null)
         {
             staminaSlider.maxValue = maxStamina;
             staminaSlider.value = NowStamina;
         }
-
-        if (gameClearTMPText != null) gameClearTMPText.enabled = false;
-
+        
     }
-
+    
     // Update is called once per frame
 
     void Update()
@@ -99,7 +91,7 @@ public class Player_test : MonoBehaviour
         //TODO 캐릭터 점프, 애니메이션 관련 레이케스트 코드 
         Debug.DrawRay(transform.position, Vector3.down * 0.2f, Color.red); //! 레이저시각화
         //! 레이케스트 구현
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f, GroundlayerMask, QueryTriggerInteraction.UseGlobal))
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f, GroundlayerMask, QueryTriggerInteraction.UseGlobal)) 
         {
             //Debug.Log("Raycast 충돌 오브젝트 : " + hit.collider.gameObject.name);
             //Debug.Log("충돌위치 :" + hit.point);
@@ -114,7 +106,6 @@ public class Player_test : MonoBehaviour
             ground = true;  //공중에 떠있다면 ground는 참
             animator.ResetTrigger("Land");
         }
-        UpdateKeyUI();
 
 
         //TODO 플레이어 계단 인식 코드
@@ -122,23 +113,25 @@ public class Player_test : MonoBehaviour
         Vector3 Groundright = (Vector3.down + Vector3.right).normalized; // 오른쪽아래 대각 방향 백터
         Debug.DrawRay(transform.position, Groundleft * 0.7f, Color.blue);   //왼쪽 대각 시각화
         Debug.DrawRay(transform.position, Groundright * 0.7f, Color.blue);  //오른쪽 대각 시각화
-        if (Physics.Raycast(transform.position, Groundleft, out hit, 0.7f, StairlayerMask) ||
+        if(Physics.Raycast(transform.position, Groundleft, out hit, 0.7f, StairlayerMask) || 
             Physics.Raycast(transform.position, Groundright, out hit, 0.7f, StairlayerMask))
         {
             //Debug.Log("Stair detection!");
-            rigid.useGravity = false;
-        }
-        else
+            rigid.useGravity = false; 
+        }else 
         {
             rigid.useGravity = true;
         }
+
+
+        
 
         //! CheckGround(); // 2단 점프 금지 구현
         if (Input.GetKeyDown(KeyCode.Space) && !ground)
         {
             ground = true;
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpHeight);
-
+            
             animator.SetBool("jump", true); //점프 애니메이션 적용
             animator.ResetTrigger("Land");    // 착지 애니메이션 초기화
         }
@@ -147,7 +140,7 @@ public class Player_test : MonoBehaviour
         {
             animator.SetBool("Fall", true);
         }
-
+        
         //TODO--------------------------- 달리기 코드 // 스태미나 코드------------------------------------
         bool canRun = NowStamina > 0f;  //달릴수 있는지 확인하기 위한 변수
 
@@ -159,7 +152,7 @@ public class Player_test : MonoBehaviour
                 if (!animator.GetBool("run")) animator.SetBool("run", true);
                 if (animator.GetBool("walk")) animator.SetBool("walk", false);
                 runPow = 2;
-
+                
                 //스태미나 소모
                 NowStamina -= drainStamina * Time.deltaTime;    //달리때 매 초마다 스태미나 소모
                 NowStamina = Mathf.Clamp(NowStamina, 0f, maxStamina);
@@ -173,11 +166,11 @@ public class Player_test : MonoBehaviour
 
                 //스태미나 회복 // 회복 타이머
                 timerStamina += Time.deltaTime;
-                if (timerStamina >= delayStamina) //회복 타이머가 스태미나 지연시간보다 클때 //2.1초 가 되면 회복시작
+                if(timerStamina >= delayStamina) //회복 타이머가 스태미나 지연시간보다 클때 //2.1초 가 되면 회복시작
                 {
                     NowStamina += recoveryStamina * Time.deltaTime;         // 매 초마다 스태미나 회복
                     NowStamina = Mathf.Clamp(NowStamina, 0f, maxStamina);
-                }
+                } 
             }
         } // Animator 컴포넌트의 "walk" 값을 true로
         else
@@ -190,14 +183,14 @@ public class Player_test : MonoBehaviour
             }
             //정지 했을 경우에도 스태미나 회복
             timerStamina += Time.deltaTime;
-            if (timerStamina >= delayStamina)
+            if(timerStamina >= delayStamina)
             {
                 NowStamina += recoveryStamina * Time.deltaTime;
                 NowStamina = Mathf.Clamp(NowStamina, 0f, maxStamina);
             }
             //정지 할 경우 
         }
-        if (staminaSlider != null) staminaSlider.value = NowStamina; //스태미나 UI 동기화
+        if(staminaSlider != null) staminaSlider.value = NowStamina; //스태미나 UI 동기화
         /*
         rigid.linearVelocity와 transform.forward...등 차이점
         transform : 물리적 이동이 아닌 월드 좌표를 강제적으로 이동시킨다. (순간이동)
@@ -226,21 +219,21 @@ public class Player_test : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
                 PlayerMovemass(0, 0, movepw.z); // W
-            else if (!Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+            else if (!Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(-movepw.x, 0, 0); // A
-            else if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+            else if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(0, 0, -movepw.z); // S
-            else if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+            else if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(movepw.x, 0, 0); // D
-            else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(-movepw.x, 0, movepw.z); // WA
-            else if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(movepw.x, 0, movepw.z); // WD
-            else if (!Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+            else if (!Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)) 
                 PlayerMovemass(-movepw.x, 0, -movepw.z); // SA
             else if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
                 PlayerMovemass(movepw.x, 0, -movepw.z); // SD
-
+            
 
             /*
              
@@ -330,21 +323,19 @@ public class Player_test : MonoBehaviour
             }
         }
 
-        //?-------------------------------------------여기 까지 이동 구현------------------------------------------------------------------
+//?-------------------------------------------여기 까지 이동 구현------------------------------------------------------------------
         //! 플레이어 회전 구현
         Vector3 moveDirection = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
-
-        if (moveDirection != Vector3.zero) //움직이고 있을 때만 회전
+        
+        if(moveDirection != Vector3.zero) //움직이고 있을 때만 회전
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection); //회전 방향을 바라보게 끔 회전
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Slerp <- 부드럽게 회전
         }
-
+        
         //bool isMoving = moveDirection.magnitude > 0.1f; //일정 속도 움직이면 움직이는 상태 on
         //animator.SetBool("isWalk", isMoving);
         EnemyFollowDot();
-
-
     }
     void PlayerMovemass(float x, float y, float z)
     {
@@ -361,7 +352,7 @@ public class Player_test : MonoBehaviour
         {
             if (PlayerDot[0] != Vector3.zero)
             {
-                for (int i = PlayerDot.Length - 1; 0 < i; i--)
+                for(int i = PlayerDot.Length - 1; 0 < i; i--)
                 {
                     PlayerDot[i] = PlayerDot[i - 1];
                     GetComponent<LineRenderer>().SetPosition(i - 1, PlayerDot[i - 1]);
@@ -379,43 +370,15 @@ public class Player_test : MonoBehaviour
     }
     void OnDrawGizmosSelected()
     {
-
+        
     }
 
-
+    
     void playerDead()
     {
-        if (PlayerHp <= 0)
+        if(PlayerHp <= 0)
         {
             //animation dead start and return
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Key")
-        {
-            //Debug.Log("Get Key");
-            Destroy(other.gameObject);
-            Keycount++;
-        }
-    }
-
-    void UpdateKeyUI()      //열쇠 획득 코드
-    {
-        if (KeyCountText != null)
-        {
-            KeyCountText.text = Keycount + " / " + TotalKeys;
-        }
-
-
-        if (!isGameClear && Keycount >= 5)
-        {
-            isGameClear = true;
-            Debug.Log("Game Clear!");
-            Time.timeScale = 0;
-
-            gameClearTMPText.enabled = true;
         }
     }
 }

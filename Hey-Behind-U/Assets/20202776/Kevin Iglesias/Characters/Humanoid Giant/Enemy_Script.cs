@@ -88,8 +88,8 @@ public class Enemy_Script : MonoBehaviour
                 viewDistance = 40f;
                 break;
             case 50:
-                viewAngle = 0f;
-                viewDistance = 0f;
+                viewAngle = 360f;
+                viewDistance = 15f;
                 break;
             case 51:
                 viewAngle = 0f;
@@ -172,8 +172,8 @@ public class Enemy_Script : MonoBehaviour
                     {
                         float LoopTransform = Vector3.Distance(transform.position, SelectLoop.GetPosition(walkLoop));
                         agent.SetDestination(SelectLoop.GetPosition(walkLoop));
-                        if (LoopTransform < 1f && walkLoop != SelectLoop.positionCount - 1) walkLoop++;
-                        else if (LoopTransform < 1f && walkLoop == SelectLoop.positionCount - 1) walkLoop = 0;
+                        if (LoopTransform < 1.5f && walkLoop != SelectLoop.positionCount - 1) walkLoop++;
+                        else if (LoopTransform < 1.5f && walkLoop == SelectLoop.positionCount - 1) walkLoop = 0;
                     }
                 }
                 break;
@@ -328,8 +328,8 @@ public class Enemy_Script : MonoBehaviour
                     if (!SetmovePoint) SetmovePoint = true;   
                     float forwardTransform = Vector3.Distance(transform.position, SelectLoop.GetPosition(walkLoop));
                     agent.SetDestination(SelectLoop.GetPosition(walkLoop)); 
-                    if (forwardTransform < 1f && walkLoop != SelectLoop.positionCount - 1) walkLoop++;
-                    else if (forwardTransform < 1f && walkLoop == SelectLoop.positionCount - 1) walkLoop = 0;
+                    if (forwardTransform < 1.5f && walkLoop != SelectLoop.positionCount - 1) walkLoop++;
+                    else if (forwardTransform < 1.5f && walkLoop == SelectLoop.positionCount - 1) walkLoop = 0;
                 }
                 break;
             case 50:
@@ -341,7 +341,7 @@ public class Enemy_Script : MonoBehaviour
                     float DotTransform = Vector3.Distance(transform.position, PlayerChar.GetComponent<Player_test>().PlayerDot[FollowCount]);
                     if (PlayerChar.GetComponent<Player_test>().PlayerDot[FollowCount] != Vector3.zero)
                         agent.SetDestination(PlayerChar.GetComponent<Player_test>().PlayerDot[FollowCount]);
-                    if (DotTransform < 0.3f && FollowCount > 0) FollowCount--;
+                    if (DotTransform < 1.5f && FollowCount > 0) FollowCount--;
                 }
                 break;
             case 51:
